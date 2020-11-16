@@ -5,6 +5,7 @@ const morgan = require("morgan");
 
 const corsOptions = require("./utils/corsOptions");
 const morganOptions = require("./utils/morganOptions");
+const mongooseConnect = require("./utils/mongooseConnect");
 const startListeningHelper = require("./helpers/startListeningHelper");
 
 
@@ -19,7 +20,7 @@ class HandlerServer {
   start = async () => {
     this.initMiddlewares();
     this.initRoutes();
-    await this.initDataBase();
+    await this.initDatabase();
     this.initErrorMiddleWare();
     this.startListening();
   }
@@ -38,14 +39,8 @@ class HandlerServer {
     console.log("Init routes")
   }
 
-  initDataBase = async () => {
-    try {
-      await console.log("Init database")
-    }
-    catch (error) {
-      console.log(error);
-      process.exit(1);
-    }
+  initDatabase = async () => {
+    await mongooseConnect();
   }
 
   startListening = () => {
