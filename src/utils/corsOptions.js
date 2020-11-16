@@ -1,5 +1,5 @@
 const {PORT, CORS_URL} = process.env;
 
-export default {
+module.exports = {
   origin: `${CORS_URL}${PORT}`
 }

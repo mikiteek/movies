@@ -1,1 +1,1 @@
-export default "combined";
+module.exports = "combined";
