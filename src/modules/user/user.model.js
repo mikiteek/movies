@@ -19,17 +19,22 @@ const userSchema = new Schema({
     required: true,
     minlength: 6,
   },
-  favoriteMovies: {
+  favoriteMovies: [{
     type: Schema.Types.ObjectId,
     ref: "Movie",
-  },
-  watchedMovies: {
+  }],
+  watchedMovies: [{
     type: Schema.Types.ObjectId,
     ref: "Movie",
-  },
-  queueMovies: {
+  }],
+  queueMovies: [{
     type: Schema.Types.ObjectId,
     ref: "Movie",
+  }],
+  confirmationToken: String,
+  confirmed: {
+    type: Boolean,
+    default: false,
   },
 });
 
