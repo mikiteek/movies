@@ -8,6 +8,8 @@ const morganOptions = require("./utils/morganOptions");
 const mongooseConnect = require("./utils/mongooseConnect");
 const startListeningHelper = require("./helpers/startListeningHelper");
 
+const errorMiddleWare = require("./modules/error/middlewares/errorMiddleware")
+
 
 const PORT = process.env.PORT || 4000;
 
@@ -32,7 +34,7 @@ class HandlerServer {
   }
 
   initErrorMiddleWare = () => {
-    console.log("Init error middleware")
+    this._server.use(errorMiddleWare);
   }
 
   initRoutes = () => {
