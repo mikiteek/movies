@@ -8,6 +8,8 @@ const morganOptions = require("./utils/morganOptions");
 const mongooseConnect = require("./utils/mongooseConnect");
 const startListeningHelper = require("./helpers/startListeningHelper");
 
+const userRouter = require("./modules/user/user.route");
+
 const errorMiddleWare = require("./modules/error/middlewares/errorMiddleware")
 
 
@@ -38,7 +40,7 @@ class HandlerServer {
   }
 
   initRoutes = () => {
-    console.log("Init routes")
+    this._server.use("/users", userRouter);
   }
 
   initDatabase = async () => {
