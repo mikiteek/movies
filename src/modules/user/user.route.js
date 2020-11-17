@@ -3,6 +3,7 @@ const {Router} = require("express");
 const checkEmailExistMiddleware = require("./middlewares/checkEmailExistMiddleware");
 const registerUserValidateMiddleware = require("./middlewares/registerUserValidateMiddleware");
 const loginUserValidateMiddleware = require("./middlewares/loginUserValidateMiddleware");
+const authorizeMiddleware = require("./middlewares/authorizeMiddleware");
 
 const userController = require("./user.controller");
 
@@ -22,6 +23,11 @@ userRouter.get("/verify/:confirmationToken",
 userRouter.post("/login",
   loginUserValidateMiddleware,
   userController.login,
+);
+
+userRouter.post("/logout",
+  authorizeMiddleware,
+  userController.logout,
 );
 
 module.exports = userRouter;
