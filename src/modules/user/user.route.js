@@ -4,6 +4,7 @@ const checkEmailExistMiddleware = require("./middlewares/checkEmailExistMiddlewa
 const registerUserValidateMiddleware = require("./middlewares/registerUserValidateMiddleware");
 const loginUserValidateMiddleware = require("./middlewares/loginUserValidateMiddleware");
 const authorizeMiddleware = require("./middlewares/authorizeMiddleware");
+const checkAdminPermissions = require("./middlewares/checkAdminPermissions");
 
 const userController = require("./user.controller");
 
@@ -33,6 +34,12 @@ userRouter.post("/logout",
 userRouter.get("/current",
   authorizeMiddleware,
   userController.getCurrentUser
+);
+
+userRouter.delete("/:id",
+  authorizeMiddleware,
+  checkAdminPermissions,
+  userController.remove,
 );
 
 module.exports = userRouter;
