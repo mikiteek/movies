@@ -74,6 +74,15 @@ class UserController {
       next(e);
     }
   }
+
+  logout = async (req, res, next) => {
+    try {
+      return res.status(204).send();
+    }
+    catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new UserController();
