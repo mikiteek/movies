@@ -9,7 +9,7 @@ const sendMailHandler = async (emailTo, verifyToken) => {
     from: process.env.SENDGRID_EMAIL_FROM,
     subject: 'Welcome! Confirm your email',
     text: 'and easy to do anywhere, even with Node.js',
-    html: `<p>Hello, please follow the <a href="http://localhost:3000/auth/verify/${verifyToken}">link</a> for verify your token</p>`,
+    html: `<p>Hello, please follow the <a href="http://localhost:4000/users/verify/${verifyToken}">link</a> for verify your token</p>`,
   };
   try {
     await sgMail.send(msg);

@@ -30,6 +30,22 @@ class UserController {
       next(e);
     }
   }
+
+  async verifyToken(req, res, next) {
+    try {
+      const {confirmationToken} = req.params;
+      const user = await User.findOne({confirmationToken});
+      if (!user) {
+        return res.status(404).json({message: "Not found"});
+      }
+
+      await User.findByIdAndUpdate(user._id, {confirmationToken: null, confirmed: true});
+      return res.status(200).json({message: "You have successfully verified email"});
+    }
+    catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new UserController();
