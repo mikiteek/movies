@@ -93,6 +93,21 @@ class UserController {
       next(e);
     }
   }
+
+  remove = async (req, res, next) => {
+    try {
+      const {id} = req.params;
+      const userEmailDeleted = await User.findByIdAndDelete(id, {projection: {email: true}});
+      if (!userEmailDeleted) {
+        return res.status(404).json({message: "Not found"});
+      }
+
+      return res.status(200).json({message: "User has deleted"});
+    }
+    catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new UserController();
