@@ -83,6 +83,16 @@ class UserController {
       next(e);
     }
   }
+
+  getCurrentUser = async (req, res, next) => {
+    try {
+      const userToClient = userToClientHelper(req.user);
+      return res.status(200).json(userToClient);
+    }
+    catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new UserController();

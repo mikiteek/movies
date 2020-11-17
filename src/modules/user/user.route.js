@@ -30,4 +30,9 @@ userRouter.post("/logout",
   userController.logout,
 );
 
+userRouter.get("/current",
+  authorizeMiddleware,
+  userController.getCurrentUser
+);
+
 module.exports = userRouter;
