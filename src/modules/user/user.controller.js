@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const {v4: uuid} = require("uuid");
+const jwt = require("jsonwebtoken");
 
 const User = require("./user.model");
 
@@ -31,7 +32,7 @@ class UserController {
     }
   }
 
-  async verifyToken(req, res, next) {
+  verifyToken = async (req, res, next) => {
     try {
       const {confirmationToken} = req.params;
       const user = await User.findOne({confirmationToken});
@@ -41,6 +42,33 @@ class UserController {
 
       await User.findByIdAndUpdate(user._id, {confirmationToken: null, confirmed: true});
       return res.status(200).json({message: "You have successfully verified email"});
+    }
+    catch (e) {
+      next(e);
+    }
+  }
+
+  login = async (req, res, next) => {
+    try {
+      const {password, email} = req.body;
+      const userToFind = await User.findOne({email});
+      if (!userToFind) {
+        return res.status(401).json({message: "Not authorized"});
+      }
+      const isPassValid = await bcrypt.compare(password, userToFind.password);
+      if (!isPassValid) {
+        return res.status(401).json({message: "Not authorized"});
+      }
+      if (!userToFind.confirmed) {
+        return res.status(401).json({message: "Please verify your email"});
+      }
+
+      const token = await jwt.sign({id: userToFind._id, role: userToFind.role}, process.env.JWT_SECRET);
+      const userToClient = {
+        user: userToClientHelper(userToFind),
+        token,
+      }
+      return res.status(200).json(userToClient);
     }
     catch (e) {
       next(e);
