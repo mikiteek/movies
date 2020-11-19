@@ -108,6 +108,16 @@ class UserController {
       next(e);
     }
   }
+
+  getAllUsers = async (req, res, next) => {
+    try {
+      const users = await User.find({}, {firstName: true, lastName: true, email: true, role: true, confirmed: true});
+      return res.status(200).json(users);
+    }
+    catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new UserController();

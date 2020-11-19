@@ -42,4 +42,10 @@ userRouter.delete("/:id",
   userController.remove,
 );
 
+userRouter.get("/",
+  authorizeMiddleware,
+  checkAdminPermissions,
+  userController.getAllUsers,
+)
+
 module.exports = userRouter;
